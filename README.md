@@ -13,6 +13,7 @@ A custom toast notification component for React Native (Android & iOS).
 ## Installation
 
 To install the package, use npm or yarn:
+```
 
 ```bash
 npm install react-native-toast
@@ -210,4 +211,3 @@ export default App;
 ## License
 
 MIT © [Similoluwa Odeyemi](https://github.com/simdanonline)
-```
