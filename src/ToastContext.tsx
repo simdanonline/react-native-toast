@@ -19,6 +19,8 @@ const ToastContext = createContext({
     content,
     status,
   }: ToastProp) => {},
+  hideAllToast: () => {},
+  hideToast: () => {},
 });
 
 export const ToastProvider = ({ children }) => {
@@ -47,20 +49,33 @@ export const ToastProvider = ({ children }) => {
           status,
         },
       ]);
+      return key;
     },
     []
   );
+
+  const hideAllToast = useCallback(() => {
+    setToasts([]);
+  }, []);
+
+  const hideToast = useCallback((key: number) => {
+    setToasts((prev) => prev.filter((toast) => toast.key !== key));
+  });
 
   const handleClose = useCallback((key: number) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast.key !== key));
   }, []);
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={{ showToast, hideAllToast, hideToast }}>
       {children}
-      {toasts.map((toast, index) => {
-        const positionFilteredToasts = toasts.filter(t => t.position === toast.position);
-        const positionIndex = positionFilteredToasts.findIndex(t => t.key === toast.key);
+      {toasts.map((toast) => {
+        const positionFilteredToasts = toasts.filter(
+          (t) => t.position === toast.position
+        );
+        const positionIndex = positionFilteredToasts.findIndex(
+          (t) => t.key === toast.key
+        );
         return (
           <>
             <Toast
