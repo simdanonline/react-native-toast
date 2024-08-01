@@ -1,4 +1,3 @@
-
 # @simdanonline/react-native-toast
 
 A custom toast notification component for React Native (Android & iOS).
@@ -8,11 +7,11 @@ A custom toast notification component for React Native (Android & iOS).
 - Simple and easy to use
 - Customizable duration, position, and styles
 - Compatible with both Android and iOS
+- Allows passing custom components
 
 ## Installation
 
 To install the package, use npm or yarn:
-
 
 ```bash
 npm install @simdanonline/react-native-toast
@@ -54,7 +53,7 @@ You can use the `useToast` hook in any component to display a toast notification
 ```javascript
 // MainScreen.js
 import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, Button, StyleSheet, Text } from 'react-native';
 import { useToast } from '@simdanonline/react-native-toast';
 
 const MainScreen = () => {
@@ -63,12 +62,26 @@ const MainScreen = () => {
   return (
     <View style={styles.container}>
       <Button
-        title="Show Toast"
+        title="Show Toast Message"
         onPress={() =>
           showToast({
-            message: 'This is a custom toast notification!',
+            message: 'This is a toast message!',
             duration: 3000,
-            position: 'bottom', // or 'top'
+            position: 'bottom',
+          })
+        }
+      />
+      <Button
+        title="Show Custom Toast"
+        onPress={() =>
+          showToast({
+            content: (
+              <View>
+                <Text style={{ color: 'yellow', fontSize: 16 }}>This is a custom toast!</Text>
+              </View>
+            ),
+            duration: 3000,
+            position: 'top',
           })
         }
       />
@@ -94,7 +107,7 @@ You can customize the toast notification's container and text styles by passing 
 ```javascript
 // CustomToastScreen.js
 import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, Button, StyleSheet, Text } from 'react-native';
 import { useToast } from '@simdanonline/react-native-toast';
 
 const CustomToastScreen = () => {
@@ -106,7 +119,11 @@ const CustomToastScreen = () => {
         title="Show Custom Toast"
         onPress={() =>
           showToast({
-            message: 'This is a custom styled toast!',
+            content: (
+              <View>
+                <Text style={{ color: 'yellow', fontSize: 16 }}>This is a custom toast!</Text>
+              </View>
+            ),
             duration: 3000,
             position: 'top',
             containerStyle: styles.customContainer,
@@ -150,32 +167,28 @@ A context provider component that should wrap your application to provide toast 
 
 ### `useToast`
 
-A custom hook to show toast notifications.
+A hook that returns the `showToast` function to display a toast notification.
 
-#### Returns
+#### `showToast`
 
-- `showToast`: A function to show a toast notification.
+Function to show a toast notification.
 
-  - `message` (string): The message to display in the toast.
-  - `duration` (number, optional): The duration for which the toast should be visible (in milliseconds). Default is `2000`.
-  - `containerStyle` (ViewStyle, optional): Custom styles for the toast container.
-  - `textStyle` (TextStyle, optional): Custom styles for the toast message text.
-  - `position` ('bottom' | 'top', optional): The position of the toast on the screen. Default is `bottom`.
+##### Parameters
 
-## Example
+- `message` (optional): The message to display in the toast.
+- `content` (optional): A custom React component to display in the toast.
+- `duration` (optional): The duration for which the toast is displayed (default is `2000` ms).
+- `containerStyle` (optional): Custom styles for the toast container.
+- `textStyle` (optional): Custom styles for the text message.
+- `position` (optional): The position of the toast on the screen, either `"bottom"` or `"top"` (default is `"bottom"`).
+
+##### Example
 
 ```javascript
+// MainScreen.js
 import React from 'react';
-import { View, Button, StyleSheet } from 'react-native';
-import { ToastProvider, useToast } from '@simdanonline/react-native-toast';
-
-const App = () => {
-  return (
-    <ToastProvider>
-      <MainScreen />
-    </ToastProvider>
-  );
-};
+import { View, Button, StyleSheet, Text } from 'react-native';
+import { useToast } from '@simdanonline/react-native-toast';
 
 const MainScreen = () => {
   const { showToast } = useToast();
@@ -183,12 +196,26 @@ const MainScreen = () => {
   return (
     <View style={styles.container}>
       <Button
-        title="Show Toast"
+        title="Show Toast Message"
         onPress={() =>
           showToast({
-            message: 'Hello, this is a toast message!',
+            message: 'This is a toast message!',
             duration: 3000,
             position: 'bottom',
+          })
+        }
+      />
+      <Button
+        title="Show Custom Toast"
+        onPress={() =>
+          showToast({
+            content: (
+              <View>
+                <Text style={{ color: 'yellow', fontSize: 16 }}>This is a custom toast!</Text>
+              </View>
+            ),
+            duration: 3000,
+            position: 'top',
           })
         }
       />
@@ -204,9 +231,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default MainScreen;
 ```
 
-## License
-
-MIT © [Similoluwa Odeyemi](https://github.com/simdanonline)
+Now, you have a custom toast component that can be used in your React Native application.
