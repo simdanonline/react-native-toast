@@ -9,7 +9,6 @@ import React, {
 import Toast from "./Toast";
 import { ToastProp } from "./types";
 
-
 const ToastContext = createContext({
   showToast: ({
     message,
@@ -18,55 +17,67 @@ const ToastContext = createContext({
     textStyle,
     position,
     content,
+    status,
   }: ToastProp) => {},
 });
 
 export const ToastProvider = ({ children }) => {
-  const [toast, setToast] = useState<ToastProp>({
-    message: "",
-    duration: 2000,
-    position: "bottom",
-  });
-
+  const [toasts, setToasts] = useState<Array<ToastProp & { key: number }>>([]);
   const showToast = useCallback(
     ({
       message,
+      content,
       duration = 2000,
       containerStyle,
       textStyle,
       position,
-      content,
+      status = "default",
     }: ToastProp) => {
-      setToast({
-        message,
-        content,
-        duration,
-        containerStyle,
-        textStyle,
-        position,
-      });
+      const key = Math.random();
+      setToasts((prevToasts) => [
+        ...prevToasts,
+        {
+          key,
+          message,
+          content,
+          duration,
+          containerStyle,
+          textStyle,
+          position,
+          status,
+        },
+      ]);
     },
     []
   );
 
-  const handleClose = useCallback(() => {
-    setToast({ message: "", duration: 2000 });
+  const handleClose = useCallback((key: number) => {
+    setToasts((prevToasts) => prevToasts.filter((toast) => toast.key !== key));
   }, []);
 
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {(toast.message || toast.content) ? (
-        <Toast
-          message={toast.message}
-          content={toast.content}
-          duration={toast.duration}
-          onClose={handleClose}
-          containerStyle={toast.containerStyle}
-          textStyle={toast.textStyle}
-          position={toast.position}
-        />
-      ) : null}
+      {toasts.map((toast, index) => {
+        const positionFilteredToasts = toasts.filter(t => t.position === toast.position);
+        const positionIndex = positionFilteredToasts.findIndex(t => t.key === toast.key);
+        return (
+          <>
+            <Toast
+              key={toast.key}
+              message={toast.message}
+              content={toast.content}
+              duration={toast.duration}
+              onClose={() => handleClose(toast.key)}
+              containerStyle={toast.containerStyle}
+              textStyle={toast.textStyle}
+              position={toast.position}
+              status={toast.status}
+              index={positionIndex}
+            />
+          </>
+        );
+      })}
     </ToastContext.Provider>
   );
 };

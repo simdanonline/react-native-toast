@@ -8,8 +8,13 @@ export interface ToastProp {
   containerStyle?: ViewStyle;
   textStyle?: TextStyle;
   position?: "bottom" | "top";
-};
+  status?: status;
+}
 
 export interface ToastComponentProp extends ToastProp {
-    onClose: () => void;
+  onClose: () => void;
+  index: number;
+  key: any;
 }
+
+export type status = "default" | "success" | "error" | "warning" | "info";

@@ -67,7 +67,7 @@ const MainScreen = () => {
           showToast({
             message: 'This is a toast message!',
             duration: 3000,
-            position: 'bottom',
+            position: 'bottom', // or top
           })
         }
       />
@@ -82,6 +82,7 @@ const MainScreen = () => {
             ),
             duration: 3000,
             position: 'top',
+            status: 'success'
           })
         }
       />
@@ -128,6 +129,7 @@ const CustomToastScreen = () => {
             position: 'top',
             containerStyle: styles.customContainer,
             textStyle: styles.customText,
+            status: 'warning',
           })
         }
       />
@@ -173,14 +175,17 @@ A hook that returns the `showToast` function to display a toast notification.
 
 Function to show a toast notification.
 
-##### Parameters
+### Props
 
-- `message` (optional): The message to display in the toast.
-- `content` (optional): A custom React component to display in the toast.
-- `duration` (optional): The duration for which the toast is displayed (default is `2000` ms).
-- `containerStyle` (optional): Custom styles for the toast container.
-- `textStyle` (optional): Custom styles for the text message.
-- `position` (optional): The position of the toast on the screen, either `"bottom"` or `"top"` (default is `"bottom"`).
+| Prop           | Type           | Default  | Description                                                    |
+| -------------- | -------------- | -------- | -------------------------------------------------------------- |
+| `message`      | `string`       | `null`   | The message to display in the toast.                           |
+| `content`      | `ReactNode`    | `null`   | Custom content to display in the toast.                        |
+| `duration`     | `number`       | `2000`   | Duration for which the toast is visible.                       |
+| `containerStyle` | `ViewStyle`  | `null`   | Custom styles for the toast container.                         |
+| `textStyle`    | `TextStyle`    | `null`   | Custom styles for the toast message.                           |
+| `position`     | `'bottom' \| 'top'` | `'bottom'` | Position of the toast on the screen.                           |
+| `status`       | `'default' \| 'error' \| 'warning' \| 'success' \| 'info'` | `'default'` | Status type of the toast for different background colors.  
 
 ##### Example
 
