@@ -143,7 +143,7 @@ You can programmatically hide toasts using the `hideToast` and `hideAllToast` me
 #### Example Usage
 
 ```typescript
-import { useToast } from '@your-org/react-native-toast';
+import { useToast } from '@simdanonline/react-native-toast';
 
 const { hideAllToast, hideToast } = useToast();
 
