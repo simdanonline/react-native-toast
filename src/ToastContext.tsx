@@ -20,7 +20,7 @@ const ToastContext = createContext({
     status,
   }: ToastProp) => {},
   hideAllToast: () => {},
-  hideToast: () => {},
+  hideToast: (key) => {},
 });
 
 export const ToastProvider = ({ children }) => {
