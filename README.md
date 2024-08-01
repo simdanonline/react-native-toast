@@ -239,4 +239,6 @@ const styles = StyleSheet.create({
 export default MainScreen;
 ```
 
-Now, you have a custom toast component that can be used in your React Native application.
+## License
+
+MIT © [Similoluwa Odeyemi](https://github.com/simdanonline)
