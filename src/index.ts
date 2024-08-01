@@ -3,4 +3,6 @@ export {
   useToast,
   showGlobalToast,
   setGlobalToast,
+  removeAllToasts,
+  removeToast
 } from "./ToastContext";
