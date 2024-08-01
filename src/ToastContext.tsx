@@ -70,6 +70,8 @@ export const ToastProvider = ({ children }) => {
   useEffect(() => {
     // Automatically set the global toast function
     setGlobalToast(showToast);
+    setRemoveAllToast(hideAllToast);
+    setRemoveToast(hideToast);
   }, [showToast]);
   return (
     <ToastContext.Provider value={{ showToast, hideAllToast, hideToast }}>
@@ -107,16 +109,37 @@ export const useToast = () => {
 };
 
 let globalShowToast: ((toastProps: ToastProp) => void) | undefined = undefined;
-
+let globalRemoveAll: () => void;
+let globalRemoveToast: (key: string) => void;
 
 export const setGlobalToast = (showToastFunction) => {
   globalShowToast = showToastFunction;
+};
+
+const setRemoveAllToast = (rmvAllFunc) => {
+  globalRemoveAll = rmvAllFunc;
+};
+
+const setRemoveToast = (rmvfunc) => {
+  globalRemoveToast = rmvfunc;
 };
 
 export const showGlobalToast = (toastProps: ToastProp) => {
   if (globalShowToast) {
     globalShowToast(toastProps);
   } else {
-    console.warn('Toast function not set.');
+    console.warn("Toast function not set.");
+  }
+};
+
+export const removeAllToasts = () => {
+  if (globalRemoveAll) {
+    globalRemoveAll();
+  }
+};
+
+export const removeToast = (key) => {
+  if (globalRemoveToast) {
+    globalRemoveToast(key);
   }
 };
