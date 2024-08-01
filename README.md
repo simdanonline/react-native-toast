@@ -1,5 +1,4 @@
 
-```markdown
 # @simdanonline/react-native-toast
 
 A custom toast notification component for React Native (Android & iOS).
@@ -13,7 +12,7 @@ A custom toast notification component for React Native (Android & iOS).
 ## Installation
 
 To install the package, use npm or yarn:
-```
+
 
 ```bash
 npm install @simdanonline/react-native-toast
