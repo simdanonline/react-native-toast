@@ -5,9 +5,12 @@ A custom toast notification component for React Native (Android & iOS).
 ## Features
 
 - Simple and easy to use
-- Customizable duration, position, and styles
+- Customisable appearance, duration, position, and styles
 - Compatible with both Android and iOS
 - Allows passing custom components
+- Global toast function for easy use anywhere in the application
+- Hide specific toasts or all toasts programmatically
+
 
 ## Installation
 
@@ -46,29 +49,34 @@ const App = () => {
 export default App;
 ```
 
-### 2. Use the `useToast` hook in any component to show a toast notification
+### 2. Displaying Toasts
 
-You can use the `useToast` hook in any component to display a toast notification.
+#### Using the Hook
 
-```javascript
-// MainScreen.js
+To display a toast from within a React component, use the `useToast` hook provided by the library.
+
+#### Example
+
+```typescript
 import React from 'react';
-import { View, Button, StyleSheet, Text } from 'react-native';
+import { Button, View } from 'react-native';
 import { useToast } from '@simdanonline/react-native-toast';
 
-const MainScreen = () => {
-  const { showToast } = useToast();
+const MyComponent = () => {
+  const { showToast, hideAllToast, hideToast } = useToast();
+  const [toastOneId, setToastOneId] = useState();
 
   return (
-    <View style={styles.container}>
+    <View>
       <Button
         title="Show Toast Message"
         onPress={() =>
-          showToast({
+          const id = showToast({
             message: 'This is a toast message!',
             duration: 3000,
-            position: 'bottom', // or top
+            position: 'bottom',
           })
+          setToastOneId(id);
         }
       />
       <Button
@@ -82,23 +90,69 @@ const MainScreen = () => {
             ),
             duration: 3000,
             position: 'top',
-            status: 'success'
           })
         }
+      />
+      
+      <Button
+        title="Hide Toast One"
+        onPress={() => {
+          hideToast(toastOneId);
+        }}
+      />
+      <Button
+        title="Hide All Toasts"
+        onPress={() => hideAllToast()}
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+export default MyComponent;
+```
+
+
+### 3. Global Toast Function
+
+You can use the global `showGlobalToast` function to display toasts from outside React components, such as in non-React utility functions or services.
+
+#### Setup
+
+Make sure that `ToastProvider` is used in your application to initialize the global toast function automatically.
+
+#### Example Usage
+
+```typescript
+import { showGlobalToast, setGlobalToast } from '@simdanonline/react-native-toast';
+
+// Call the global toast function from anywhere
+showGlobalToast({
+  message: 'This is a global toast!',
+  duration: 3000,
+  position: 'bottom',
 });
 
-export default MainScreen;
+// Optionally, you can manually set the global toast function if needed
+// setGlobalToast(yourCustomShowToastFunction);
+```
+
+### 4. Hiding Toasts
+
+You can programmatically hide toasts using the `hideToast` and `hideAllToast` methods.
+
+#### Example Usage
+
+```typescript
+import { useToast } from '@your-org/react-native-toast';
+
+const { hideAllToast, hideToast } = useToast();
+
+// Hide all toasts
+hideAllToast();
+
+// Hide a specific toast by key
+const toastKey = 'unique-toast-key'; // Replace with the actual toast key
+hideToast(toastKey);
 ```
 
 ### Customizing Toast
@@ -112,7 +166,7 @@ import { View, Button, StyleSheet, Text } from 'react-native';
 import { useToast } from '@simdanonline/react-native-toast';
 
 const CustomToastScreen = () => {
-  const { showToast } = useToast();
+  const { showToast, hideAllToast } = useToast();
 
   return (
     <View style={styles.container}>
@@ -169,11 +223,19 @@ A context provider component that should wrap your application to provide toast 
 
 ### `useToast`
 
-A hook that returns the `showToast` function to display a toast notification.
+A hook that returns the `showToast`, `hideToast`, `hideAllToast` functions.
 
-#### `showToast`
+- #### `showToast`
 
 Function to show a toast notification.
+
+- #### `hideToast`
+
+Function to hide a toast notification, using toast unique key.
+
+- #### `hideAllToast`
+
+Function to hide all toast notifications.
 
 ### Props
 
