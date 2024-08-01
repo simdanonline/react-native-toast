@@ -54,7 +54,7 @@ const Toast = ({
       ]}
     >
       {content ? (
-        content
+        <>{content}</>
       ) : (
         <Text style={[styles.message, textStyle]}>{message}</Text>
       )}
