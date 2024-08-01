@@ -1,15 +1,15 @@
 // ToastContext.js
-import React, { createContext, useContext, useState, useCallback } from "react";
-import { View, StyleSheet, ViewStyle, TextStyle } from "react-native";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  ReactNode,
+} from "react";
 import Toast from "./Toast";
+import { ToastProp } from "./types";
 
-type ToastProp = {
-  message: string;
-  duration?: number;
-  containerStyle?: ViewStyle;
-  textStyle?: TextStyle;
-  position?: "bottom" | "top";
-};
+
 const ToastContext = createContext({
   showToast: ({
     message,
@@ -17,6 +17,7 @@ const ToastContext = createContext({
     containerStyle,
     textStyle,
     position,
+    content,
   }: ToastProp) => {},
 });
 
@@ -34,8 +35,16 @@ export const ToastProvider = ({ children }) => {
       containerStyle,
       textStyle,
       position,
+      content,
     }: ToastProp) => {
-      setToast({ message, duration, containerStyle, textStyle, position });
+      setToast({
+        message,
+        content,
+        duration,
+        containerStyle,
+        textStyle,
+        position,
+      });
     },
     []
   );
@@ -47,9 +56,10 @@ export const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={{ showToast }}>
       {children}
-      {toast.message ? (
+      {(toast.message || toast.content) ? (
         <Toast
           message={toast.message}
+          content={toast.content}
           duration={toast.duration}
           onClose={handleClose}
           containerStyle={toast.containerStyle}

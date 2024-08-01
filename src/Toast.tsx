@@ -1,23 +1,7 @@
 // Toast.js
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Animated,
-  StyleSheet,
-  ViewStyle,
-  TextStyle,
-  Dimensions,
-} from "react-native";
-
-type ToastType = {
-  message: string;
-  duration: number;
-  onClose: () => void;
-  containerStyle?: ViewStyle;
-  textStyle?: TextStyle;
-  position?: "bottom" | "top";
-};
+import { Text, Animated, StyleSheet, Dimensions } from "react-native";
+import { ToastComponentProp } from "./types";
 
 const { height } = Dimensions.get("screen");
 const Toast = ({
@@ -27,12 +11,13 @@ const Toast = ({
   textStyle,
   containerStyle,
   position,
-}: ToastType) => {
+  content,
+}: ToastComponentProp) => {
   const [visible, setVisible] = useState(false);
   const [fadeAnim] = useState(new Animated.Value(0)); // Initial value for opacity: 0
 
   useEffect(() => {
-    if (message) {
+    if (message || content) {
       setVisible(true);
       Animated.timing(fadeAnim, {
         toValue: 1,
@@ -53,7 +38,7 @@ const Toast = ({
 
       return () => clearTimeout(timer);
     }
-  }, [message]);
+  }, [message, content]);
 
   if (!visible) {
     return null;
@@ -61,9 +46,18 @@ const Toast = ({
 
   return (
     <Animated.View
-      style={[styles.toast, { opacity: fadeAnim }, containerStyle, {bottom: position === 'top' ? height * 0.85 : height * 0.1}]}
+      style={[
+        styles.toast,
+        { opacity: fadeAnim },
+        containerStyle,
+        { bottom: position === "top" ? height * 0.85 : height * 0.1 },
+      ]}
     >
-      <Text style={[styles.message, textStyle]}>{message}</Text>
+      {content ? (
+        content
+      ) : (
+        <Text style={[styles.message, textStyle]}>{message}</Text>
+      )}
     </Animated.View>
   );
 };
@@ -76,6 +70,8 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: "black",
     borderRadius: 5,
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   message: {
     color: "white",
