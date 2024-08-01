@@ -5,6 +5,7 @@ import React, {
   useState,
   useCallback,
   ReactNode,
+  useEffect,
 } from "react";
 import Toast from "./Toast";
 import { ToastProp } from "./types";
@@ -60,12 +61,16 @@ export const ToastProvider = ({ children }) => {
 
   const hideToast = useCallback((key: number) => {
     setToasts((prev) => prev.filter((toast) => toast.key !== key));
-  });
+  }, []);
 
   const handleClose = useCallback((key: number) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast.key !== key));
   }, []);
 
+  useEffect(() => {
+    // Automatically set the global toast function
+    setGlobalToast(showToast);
+  }, [showToast]);
   return (
     <ToastContext.Provider value={{ showToast, hideAllToast, hideToast }}>
       {children}
@@ -99,4 +104,19 @@ export const ToastProvider = ({ children }) => {
 
 export const useToast = () => {
   return useContext(ToastContext);
+};
+
+let globalShowToast: ((toastProps: ToastProp) => void) | undefined = undefined;
+
+
+export const setGlobalToast = (showToastFunction) => {
+  globalShowToast = showToastFunction;
+};
+
+export const showGlobalToast = (toastProps: ToastProp) => {
+  if (globalShowToast) {
+    globalShowToast(toastProps);
+  } else {
+    console.warn('Toast function not set.');
+  }
 };
