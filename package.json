@@ -9,5 +9,10 @@
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-native": ">=0.59.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simdanonline/react-native-toast.git"
+  },
+  "homepage": "https://github.com/simdanonline/react-native-toast.git"
 }
