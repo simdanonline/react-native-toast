@@ -1,6 +1,6 @@
 
 ```markdown
-# react-native-toast
+# @simdanonline/react-native-toast
 
 A custom toast notification component for React Native (Android & iOS).
 
@@ -16,13 +16,13 @@ To install the package, use npm or yarn:
 ```
 
 ```bash
-npm install react-native-toast
+npm install @simdanonline/react-native-toast
 ```
 
 or
 
 ```bash
-yarn add react-native-toast
+yarn add @simdanonline/react-native-toast
 ```
 
 ## Usage
@@ -34,7 +34,7 @@ Wrap your main `App` component with the `ToastProvider` to provide the context t
 ```javascript
 // App.js
 import React from 'react';
-import { ToastProvider } from 'react-native-toast';
+import { ToastProvider } from '@simdanonline/react-native-toast';
 import MainScreen from './MainScreen';
 
 const App = () => {
@@ -56,7 +56,7 @@ You can use the `useToast` hook in any component to display a toast notification
 // MainScreen.js
 import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
-import { useToast } from 'react-native-toast';
+import { useToast } from '@simdanonline/react-native-toast';
 
 const MainScreen = () => {
   const { showToast } = useToast();
@@ -96,7 +96,7 @@ You can customize the toast notification's container and text styles by passing 
 // CustomToastScreen.js
 import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
-import { useToast } from 'react-native-toast';
+import { useToast } from '@simdanonline/react-native-toast';
 
 const CustomToastScreen = () => {
   const { showToast } = useToast();
@@ -168,7 +168,7 @@ A custom hook to show toast notifications.
 ```javascript
 import React from 'react';
 import { View, Button, StyleSheet } from 'react-native';
-import { ToastProvider, useToast } from 'react-native-toast';
+import { ToastProvider, useToast } from '@simdanonline/react-native-toast';
 
 const App = () => {
   return (
