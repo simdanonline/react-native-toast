@@ -1,0 +1,6 @@
+node_modules
+*.log
+*.config.js
+__tests__
+*.test.js
+*.spec.js
