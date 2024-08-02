@@ -11,7 +11,6 @@ A custom toast notification component for React Native (Android & iOS).
 - Global toast function for easy use anywhere in the application
 - Hide specific toasts or all toasts programmatically
 
-
 ## Installation
 
 To install the package, use npm or yarn:
@@ -58,7 +57,7 @@ To display a toast from within a React component, use the `useToast` hook provid
 #### Example
 
 ```typescript
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 import { useToast } from '@simdanonline/react-native-toast';
 
@@ -70,14 +69,14 @@ const MyComponent = () => {
     <View>
       <Button
         title="Show Toast Message"
-        onPress={() =>
+        onPress={() => {
           const id = showToast({
             message: 'This is a toast message!',
             duration: 3000,
             position: 'bottom',
-          })
+          });
           setToastOneId(id);
-        }
+        }}
       />
       <Button
         title="Show Custom Toast"
@@ -111,19 +110,18 @@ const MyComponent = () => {
 export default MyComponent;
 ```
 
-
 ### 3. Global Toast Function
 
-You can use the global `showGlobalToast` function to display toasts from outside React components, such as in non-React utility functions or services.
+You can use the global `showGlobalToast`, `removeAllToasts`, and `removeToast` functions to display or hide toasts from outside React components, such as in non-React utility functions or services.
 
 #### Setup
 
-Make sure that `ToastProvider` is used in your application to initialize the global toast function automatically.
+Make sure that `ToastProvider` is used in your application to initialize the global toast functions automatically.
 
 #### Example Usage
 
 ```typescript
-import { showGlobalToast, setGlobalToast } from '@simdanonline/react-native-toast';
+import { showGlobalToast, removeAllToasts, removeToast } from '@simdanonline/react-native-toast';
 
 // Call the global toast function from anywhere
 showGlobalToast({
@@ -132,27 +130,12 @@ showGlobalToast({
   position: 'bottom',
 });
 
-// Optionally, you can manually set the global toast function if needed
-// setGlobalToast(yourCustomShowToastFunction);
-```
-
-### 4. Hiding Toasts
-
-You can programmatically hide toasts using the `hideToast` and `hideAllToast` methods.
-
-#### Example Usage
-
-```typescript
-import { useToast } from '@simdanonline/react-native-toast';
-
-const { hideAllToast, hideToast } = useToast();
-
 // Hide all toasts
-hideAllToast();
+removeAllToasts();
 
 // Hide a specific toast by key
 const toastKey = 'unique-toast-key'; // Replace with the actual toast key
-hideToast(toastKey);
+removeToast(toastKey);
 ```
 
 ### Customizing Toast
@@ -223,31 +206,45 @@ A context provider component that should wrap your application to provide toast 
 
 ### `useToast`
 
-A hook that returns the `showToast`, `hideToast`, `hideAllToast` functions.
+A hook that returns the `showToast`, `hideToast`, and `hideAllToast` functions.
 
-- #### `showToast`
+#### `showToast`
 
 Function to show a toast notification.
 
-- #### `hideToast`
+#### `hideToast`
 
-Function to hide a toast notification, using toast unique key.
+Function to hide a toast notification, using a unique key.
 
-- #### `hideAllToast`
+#### `hideAllToast`
 
 Function to hide all toast notifications.
 
+### Global Functions
+
+#### `showGlobalToast`
+
+Function to show a toast notification from anywhere in the application.
+
+#### `removeAllToasts`
+
+Function to hide all toast notifications globally.
+
+#### `removeToast`
+
+Function to hide a specific toast notification globally, using a unique key.
+
 ### Props
 
-| Prop           | Type           | Default  | Description                                                    |
-| -------------- | -------------- | -------- | -------------------------------------------------------------- |
-| `message`      | `string`       | `null`   | The message to display in the toast.                           |
-| `content`      | `ReactNode`    | `null`   | Custom content to display in the toast.                        |
-| `duration`     | `number`       | `2000`   | Duration for which the toast is visible.                       |
-| `containerStyle` | `ViewStyle`  | `null`   | Custom styles for the toast container.                         |
-| `textStyle`    | `TextStyle`    | `null`   | Custom styles for the toast message.                           |
-| `position`     | `'bottom' \| 'top'` | `'bottom'` | Position of the toast on the screen.                           |
-| `status`       | `'default' \| 'error' \| 'warning' \| 'success' \| 'info'` | `'default'` | Status type of the toast for different background colors.  
+| Prop             | Type                                                      | Default     | Description                                                    |
+| ---------------- | --------------------------------------------------------- | ----------- | -------------------------------------------------------------- |
+| `message`        | `string`                                                  | `null`      | The message to display in the toast.                           |
+| `content`        | `ReactNode`                                               | `null`      | Custom content to display in the toast.                        |
+| `duration`       | `number`                                                  | `2000`      | Duration for which the toast is visible.                       |
+| `containerStyle` | `ViewStyle`                                               | `null`      | Custom styles for the toast container.                         |
+| `textStyle`      | `TextStyle`                                               | `null`      | Custom styles for the toast message.                           |
+| `position`       | `'bottom' \| 'top'`                                       | `'bottom'`  | Position of the toast on the screen.                           |
+| `status`         | `'default' \| 'error' \| 'warning' \| 'success' \| 'info'`| `'default'` | Status type of the toast for different background colors.      |
 
 ##### Example
 
@@ -304,3 +301,4 @@ export default MainScreen;
 ## License
 
 MIT © [Similoluwa Odeyemi](https://github.com/simdanonline)
+```
