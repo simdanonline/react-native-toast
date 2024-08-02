@@ -301,4 +301,3 @@ export default MainScreen;
 ## License
 
 MIT © [Similoluwa Odeyemi](https://github.com/simdanonline)
-```
