@@ -23,11 +23,12 @@ jobs:
         run: npm install
       - name: Commit uncommitted changes
         run: |
-          git config --global user.name "simdanonline"
           git add .
-          git commit -m "chore: commit uncommitted changes" || echo "No changes to commit"
+          git diff-index --quiet HEAD || git commit -m "chore: commit uncommitted changes"
 
       - name: Bump version and push tag
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         id: tag_version
         run: |
           npm version patch -m "Upgrade to %s"
