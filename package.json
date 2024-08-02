@@ -1,6 +1,6 @@
 {
   "name": "@simdanonline/react-native-toast",
-  "version": "1.0.91",
+  "version": "1.0.92",
   "description": "Customisable toast package for react native apps",
   "main": "src/index.ts",
   "author": "similoluwa odeyemi",
