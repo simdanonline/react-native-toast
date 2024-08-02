@@ -30,7 +30,6 @@ jobs:
       - name: Bump version and push tag
         id: tag_version
         run: |
-          git config --global user.name "simdanonline"
           npm version patch -m "Upgrade to %s"
           git push --follow-tags
 
