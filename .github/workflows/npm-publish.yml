@@ -21,7 +21,12 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-      
+      - name: Commit uncommitted changes
+        run: |
+          git config --global user.name "simdanonline"
+          git add .
+          git commit -m "chore: commit uncommitted changes" || echo "No changes to commit"
+
       - name: Bump version and push tag
         id: tag_version
         run: |
