@@ -36,8 +36,7 @@ export const ToastProvider = ({ children, disableMultiple = false }) => {
       position,
       status = "default",
     }: ToastProp) => {
-      const key =
-        Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+      const key = Math.random().toString(36).slice(2) + Date.now().toString(36);
 
       if (disableMultiple) {
         setToasts([
@@ -101,20 +100,18 @@ export const ToastProvider = ({ children, disableMultiple = false }) => {
           (t) => t.key === toast.key
         );
         return (
-          <>
-            <Toast
-              key={toast.key + idx}
-              message={toast.message}
-              content={toast.content}
-              duration={toast.duration}
-              onClose={() => handleClose(toast.key)}
-              containerStyle={toast.containerStyle}
-              textStyle={toast.textStyle}
-              position={toast.position}
-              status={toast.status}
-              index={positionIndex}
-            />
-          </>
+          <Toast
+            key={toast.key}
+            message={toast.message}
+            content={toast.content}
+            duration={toast.duration}
+            onClose={() => handleClose(toast.key)}
+            containerStyle={toast.containerStyle}
+            textStyle={toast.textStyle}
+            position={toast.position}
+            status={toast.status}
+            index={positionIndex}
+          />
         );
       })}
     </ToastContext.Provider>

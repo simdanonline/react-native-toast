@@ -33,7 +33,6 @@ const Toast = ({
 
   const [measuredHeight, setMeasuredHeight] = useState(0);
 
-  console.log({measuredHeight});
   const onLayout = (event) => {
     const { height } = event.nativeEvent.layout;
     setMeasuredHeight(height);
