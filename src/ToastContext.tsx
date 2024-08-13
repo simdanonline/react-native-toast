@@ -24,7 +24,7 @@ const ToastContext = createContext({
   hideToast: (key: string) => {},
 });
 
-export const ToastProvider = ({ children }) => {
+export const ToastProvider = ({ children, disableMultiple = false }) => {
   const [toasts, setToasts] = useState<Array<ToastProp & { key: string }>>([]);
   const showToast = useCallback(
     ({
@@ -36,20 +36,37 @@ export const ToastProvider = ({ children }) => {
       position,
       status = "default",
     }: ToastProp) => {
-      const key = Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
-      setToasts((prevToasts) => [
-        ...prevToasts,
-        {
-          key,
-          message,
-          content,
-          duration,
-          containerStyle,
-          textStyle,
-          position,
-          status,
-        },
-      ]);
+      const key =
+        Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+
+      if (disableMultiple) {
+        setToasts([
+          {
+            message,
+            content,
+            duration,
+            containerStyle,
+            textStyle,
+            position,
+            status,
+            key,
+          },
+        ]);
+      } else {
+        setToasts((prevToasts) => [
+          ...prevToasts,
+          {
+            key,
+            message,
+            content,
+            duration,
+            containerStyle,
+            textStyle,
+            position,
+            status,
+          },
+        ]);
+      }
       return key;
     },
     []
@@ -76,7 +93,7 @@ export const ToastProvider = ({ children }) => {
   return (
     <ToastContext.Provider value={{ showToast, hideAllToast, hideToast }}>
       {children}
-      {toasts.map((toast) => {
+      {toasts.map((toast, idx) => {
         const positionFilteredToasts = toasts.filter(
           (t) => t.position === toast.position
         );
@@ -86,7 +103,7 @@ export const ToastProvider = ({ children }) => {
         return (
           <>
             <Toast
-              key={toast.key}
+              key={toast.key + idx}
               message={toast.message}
               content={toast.content}
               duration={toast.duration}
