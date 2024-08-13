@@ -21,11 +21,11 @@ const ToastContext = createContext({
     status,
   }: ToastProp) => {},
   hideAllToast: () => {},
-  hideToast: (key) => {},
+  hideToast: (key: string) => {},
 });
 
 export const ToastProvider = ({ children }) => {
-  const [toasts, setToasts] = useState<Array<ToastProp & { key: number }>>([]);
+  const [toasts, setToasts] = useState<Array<ToastProp & { key: string }>>([]);
   const showToast = useCallback(
     ({
       message,
@@ -36,7 +36,7 @@ export const ToastProvider = ({ children }) => {
       position,
       status = "default",
     }: ToastProp) => {
-      const key = Math.random();
+      const key = Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
       setToasts((prevToasts) => [
         ...prevToasts,
         {
@@ -59,11 +59,11 @@ export const ToastProvider = ({ children }) => {
     setToasts([]);
   }, []);
 
-  const hideToast = useCallback((key: number) => {
+  const hideToast = useCallback((key: string) => {
     setToasts((prev) => prev.filter((toast) => toast.key !== key));
   }, []);
 
-  const handleClose = useCallback((key: number) => {
+  const handleClose = useCallback((key: string) => {
     setToasts((prevToasts) => prevToasts.filter((toast) => toast.key !== key));
   }, []);
 
@@ -138,7 +138,7 @@ export const removeAllToasts = () => {
   }
 };
 
-export const removeToast = (key) => {
+export const removeToast = (key: string) => {
   if (globalRemoveToast) {
     globalRemoveToast(key);
   }
